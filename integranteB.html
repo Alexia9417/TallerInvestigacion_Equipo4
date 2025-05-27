@@ -1,19 +1,49 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integrante B</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <title>Agenda</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Bienvenido Integrante B</h1>
-        <div class="welcome-message">
-            <p>¡Hola! Soy el Integrante B del grupo. Este es mi espacio personalizado donde puedo compartir información sobre mí.</p>
-            <p>Puedo editar este mensaje para incluir mis intereses, habilidades o cualquier otra información relevante.</p>
-        </div>
-        <a href="index.html" class="integrante-btn">Volver al formulario</a>
-    </div>
+
+<?php
+function mostrarDatos($resultados) {
+    if ($resultados != NULL) {
+        echo "- Nombre: " . htmlspecialchars($resultados['nombre']) . "<br/>";
+        echo "- Apellidos: " . htmlspecialchars($resultados['apellidos']) . "<br/>";
+        echo "- Dirección: " . htmlspecialchars($resultados['direccion']) . "<br/>";
+        echo "- Teléfono: " . htmlspecialchars($resultados['telefono']) . "<br/>";
+        echo "- Edad: " . htmlspecialchars($resultados['edad']) . "<br/><br/>";
+    } else {
+        echo "<br/>No hay más datos.<br/>";
+    }
+}
+
+// Conexión a MySQL
+$conexion = new mysqli("localhost", "andy", "Aneliel5%", "tiusr33pl_tarea1AndreaZM");
+
+// Verifica si hay error
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
+
+// Consulta
+$sql = "SELECT * FROM agenda LIMIT 6";
+$resultado = $conexion->query($sql);
+
+// Mostrar resultados
+if ($resultado && $resultado->num_rows > 0) {
+    while ($fila = $resultado->fetch_assoc()) {
+        mostrarDatos($fila);
+    }
+} else {
+    echo "No se encontraron registros.";
+}
+
+$conexion->close();
+?>
+
+<p style="margin-top: 30px;"><strong>Andrea ZM</strong></p>
+
 </body>
 </html>
